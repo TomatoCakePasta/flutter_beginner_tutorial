@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_beginner_tutorial/next_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -54,7 +55,15 @@ class _MyHomePageState extends State<MyHomePage> {
             Text("Milk"),
             Text("Eggs"),
             Text("Bread"),
-            ElevatedButton(onPressed: () {}, child: const Text("Add to Cart"))
+            ElevatedButton(
+              onPressed: () {
+               Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const NextPage())
+               );
+              },
+              child: const Text("Add to Cart"),
+            ),
           ],
         ),
       ),
