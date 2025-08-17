@@ -41,10 +41,10 @@ class _MyHomePageState extends State<MyHomePage> {
   VideoPlayerController? _videoController;
 
   final List<Map<String, String>> _media = [
-    {"type": "image", "url": "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg"},
-    {"type": "video", "url": "https://www.w3schools.com/html/mov_bbb.mp4"},
-    {"type": "image", "url": "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-2.jpg"},
-    {"type": "image", "url": "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-3.jpg"},
+    {"type": "image", "url": "medias/image1.jpg"},
+    {"type": "image", "url": "medias/image2.jpg"},
+    {"type": "image", "url": "medias/image3.jpg"},
+    {"type": "video", "url": "medias/video1.mp4"},
   ];
 
   // URLのリスト
@@ -87,8 +87,11 @@ class _MyHomePageState extends State<MyHomePage> {
     
     if (media["type"] == "video") {
       // 動画再生
+      // 前のコントローラを破棄
+      _videoController?.removeListener(_videoListener);
       _videoController?.dispose();
-      _videoController = VideoPlayerController.network(media["url"]!)
+
+      _videoController = VideoPlayerController.asset(media["url"]!)
         ..initialize().then((_) {
           setState(() {
             _videoController!.play();
@@ -96,11 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
         });
 
       // 動画の再生が終わったら次へ
-      _videoController?.addListener(() {
-        if (_videoController!.value.position >= _videoController!.value.duration) {
-          _nextIndexAndContinue();
-        }
-      });
+      _videoController?.addListener(_videoListener);
     }
     // 画像 -> fade -> wait
     else {
@@ -109,6 +108,14 @@ class _MyHomePageState extends State<MyHomePage> {
           _nextIndexAndContinue();
         }
       });
+    }
+  }
+
+  void _videoListener() {
+    if (_videoController!.value.isInitialized &&
+        !_videoController!.value.isPlaying &&
+        _videoController!.value.position >= _videoController!.value.duration) {
+      _nextIndexAndContinue();
     }
   }
 
@@ -125,14 +132,17 @@ class _MyHomePageState extends State<MyHomePage> {
       );
     }
     else if (media["type"] == "image") {
-      child = Image.network(
+      child = Image.asset(
         media["url"]!,
         fit: BoxFit.cover,
         key: ValueKey(media["url"]),
       );
     }
     else {
-      child = const SizedBox();
+      child = const SizedBox(
+        width: 500,
+        height: 500,
+      );
     }
 
     return SizedBox(
@@ -159,7 +169,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(_urls[_selectedIndex]),
+              Text(_media[_selectedIndex]["url"]!),
               _buildCrossFadeMedia(),
               // button
               ElevatedButton(
