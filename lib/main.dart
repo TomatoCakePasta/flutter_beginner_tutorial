@@ -30,13 +30,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,18 +52,31 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const NextPage())
+                MaterialPageRoute(builder: (context) => NextPage(text: "A"))
                );
               },
-              child: const Text("Add to Cart"),
+              child: const Text("A"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+               Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => NextPage(text: "B"))
+               );
+              },
+              child: const Text("B"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+               Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => NextPage(text: "C"))
+               );
+              },
+              child: const Text("C"),
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }

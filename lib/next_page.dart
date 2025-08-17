@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 class NextPage extends StatelessWidget {
-  const NextPage({super.key});
+  NextPage({
+    super.key,
+    required this.text,
+  });
+
+  String text = "";
 
   @override
   Widget build(BuildContext context) {
@@ -12,13 +17,22 @@ class NextPage extends StatelessWidget {
       body: Container(
         alignment: Alignment.center,
         color: const Color.fromARGB(255, 222, 249, 239),
-        child: Center(
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text("Go Back"),
-          ),
+        child: Column(
+          children: [
+            Text(
+              "${text}",
+              style: TextStyle(
+                fontSize: 100, 
+                fontWeight: FontWeight.bold
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("Go Back"),
+            ),
+          ],
         ),
       ),
     );
