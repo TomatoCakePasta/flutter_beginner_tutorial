@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 38, 137, 134)),
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -44,15 +44,17 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
+      body: Container(
+        color: const Color.fromARGB(255, 222, 249, 239),
+        width: double.infinity,
+        height: 300,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+          children: [
+            Text("Milk"),
+            Text("Eggs"),
+            Text("Bread"),
+            ElevatedButton(onPressed: () {}, child: const Text("Add to Cart"))
           ],
         ),
       ),
