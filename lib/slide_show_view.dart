@@ -35,26 +35,43 @@ class SlideShowView extends StatelessWidget {
       );
     }
 
-    return Container(
-      color: const Color.fromARGB(255, 199, 241, 227),
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(media["url"]!),
-            SizedBox(
-              width: 500,
-              height: 500,
-              child: AnimatedSwitcher(
-                duration: controller.fadeDuration,
-                child: mediaWidget,
+    return Scaffold (
+      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+      appBar: AppBar(
+        title: const Text("Next Page"),
+        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+        iconTheme: const IconThemeData(color: Color.fromARGB(255, 175, 175, 175)),
+      ),
+      body: SafeArea(
+        child: Container(
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Text(media["url"]!),
+              SizedBox(
+                width: 500,
+                height: 500,
+                child: AnimatedSwitcher(
+                  duration: controller.fadeDuration,
+                  child: mediaWidget,
+                ),
               ),
-            ),
-            ElevatedButton(
-              onPressed: controller.startOrStopSlideShow,
-              child: Text(controller.isPlaying ? "Stop" : "Start"),
-            )
-          ],
+              ElevatedButton(
+                onPressed: controller.startOrStopSlideShow,
+                child: Text(controller.isPlaying ? "Stop" : "Start"),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: controller.isPlaying
+                      ? const Color.fromARGB(50, 255, 255, 255)
+                      : const Color.fromARGB(255, 255, 255, 255),
+                  foregroundColor: controller.isPlaying
+                      ? const Color.fromARGB(180, 255, 254, 254)
+                      : Colors.black,
+                ),
+              ),
+            ],
+          ),
+        ),
         ),
       ),
     );

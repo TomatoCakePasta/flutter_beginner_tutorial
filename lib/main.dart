@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 38, 137, 134)),
       ),
-      home: const MyHomePage(title: 'Memory Way'),
+      home: const MyHomePage(title: '妙壽寺猿江別院'),
     );
   }
 }
@@ -37,30 +37,90 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        backgroundColor: const Color.fromARGB(210, 36, 63, 9),
+        title: Text(
+          widget.title,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
+        ),
       ),
       body: Container(
-        color: const Color.fromARGB(255, 199, 241, 227),
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // button
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const SlideShowPage())
-                  );
-                },
-                child: Text(
-                  "Memory Way",
-                ),
+        color: const Color.fromARGB(255, 255, 255, 255),
+        child: Stack(
+          children: [
+            Opacity(
+              opacity: 0.7,
+              child: Image.asset(
+                "medias/key-bg-2.jpg",
+                height: double.infinity,     // 縦幅を画面いっぱいに
+                fit: BoxFit.fitHeight,
               ),
-            ],
-          ),
+            ),
+            Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // button
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      width: 200,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const SlideShowPage())
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Text(
+                            "Memory",
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: SizedBox(
+                      width: 200,
+                      child: ElevatedButton(
+                        onPressed: () {
+
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Text(
+                            "Add pictures",
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
