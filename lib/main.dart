@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_beginner_tutorial/next_page.dart';
 import 'package:flutter_beginner_tutorial/select_page.dart';
+import 'package:flutter_beginner_tutorial/slide_show_page.dart';
 import 'package:video_player/video_player.dart';
 
 void main() {
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 38, 137, 134)),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Memory Way'),
     );
   }
 }
@@ -33,129 +34,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  int _selectedIndex = 0;
-  final Duration _fadeDuration = const Duration(seconds: 2);
-  final Duration _waitDuration = const Duration(seconds: 3);
-  bool isPlaying = false;
-
-  VideoPlayerController? _videoController;
-
-  final List<Map<String, String>> _media = [
-    {"type": "image", "url": "medias/image1.jpg"},
-    {"type": "image", "url": "medias/image2.jpg"},
-    {"type": "image", "url": "medias/image3.jpg"},
-    {"type": "video", "url": "medias/video1.mp4"},
-  ];
-
-  // URLのリスト
-  final List<String> _urls = [
-    "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
-    "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-2.jpg",
-    "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-3.jpg",
-  ];
-
-  @override
-  void dispose() {
-    _videoController?.dispose();
-    super.dispose();
-  }
-
-  // スライドショー再生停止
-  void _onStartSlideshow() {
-    if (!isPlaying) {
-      setState(() {
-        isPlaying = true;
-      });
-      _nextIndexAndContinue();
-    }
-    else {
-      setState(() {
-        isPlaying = false;
-      });
-    }
-  }
-
-  void _nextIndexAndContinue() {
-    setState(() {
-      _selectedIndex = (_selectedIndex + 1) % _media.length;
-    });
-    _onNextMedia();
-  }
-
-  void _onNextMedia() async {
-    final media = _media[_selectedIndex];
-    
-    if (media["type"] == "video") {
-      // 動画再生
-      // 前のコントローラを破棄
-      _videoController?.removeListener(_videoListener);
-      _videoController?.dispose();
-
-      _videoController = VideoPlayerController.asset(media["url"]!)
-        ..initialize().then((_) {
-          setState(() {
-            _videoController!.play();
-          });
-        });
-
-      // 動画の再生が終わったら次へ
-      _videoController?.addListener(_videoListener);
-    }
-    // 画像 -> fade -> wait
-    else {
-      Future.delayed(_fadeDuration + _waitDuration).then((_) {
-        if (isPlaying) {
-          _nextIndexAndContinue();
-        }
-      });
-    }
-  }
-
-  void _videoListener() {
-    if (_videoController!.value.isInitialized &&
-        !_videoController!.value.isPlaying &&
-        _videoController!.value.position >= _videoController!.value.duration) {
-      _nextIndexAndContinue();
-    }
-  }
-
-  /// クロスディゾルブ付き画像表示
-  Widget _buildCrossFadeMedia() {
-    final media = _media[_selectedIndex];
-    Widget child;
-
-    if (media["type"] == "video" && _videoController != null && _videoController!.value.isInitialized) {
-      child = AspectRatio(
-        aspectRatio: _videoController!.value.aspectRatio,
-        child: VideoPlayer(_videoController!),
-        key: ValueKey(media["url"]),
-      );
-    }
-    else if (media["type"] == "image") {
-      child = Image.asset(
-        media["url"]!,
-        fit: BoxFit.cover,
-        key: ValueKey(media["url"]),
-      );
-    }
-    else {
-      child = const SizedBox(
-        width: 500,
-        height: 500,
-      );
-    }
-
-    return SizedBox(
-      width: 500,
-      height: 500,
-      child: AnimatedSwitcher(
-        duration: _fadeDuration,
-        child: child,
-      ),
-    );
-  }
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -164,18 +42,21 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Container(
-        color: const Color.fromARGB(255, 222, 249, 239),
+        color: const Color.fromARGB(255, 199, 241, 227),
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(_media[_selectedIndex]["url"]!),
-              _buildCrossFadeMedia(),
               // button
               ElevatedButton(
-                onPressed: _onStartSlideshow,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SlideShowPage())
+                  );
+                },
                 child: Text(
-                  isPlaying ? "Stop" : "Start",
+                  "Memory Way",
                 ),
               ),
             ],
